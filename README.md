@@ -11,7 +11,7 @@ Official code for **Multi-view patch inference with frozen DINOv3 for industrial
 - `main.py`, `trainer.py`: training and evaluation entry points.
 - `datasets/`, `models/`, `utils/`: dataset loaders, model components, and utilities.
 - `dinov3-main/`: local DINOv3 source used by `torch.hub`.
-- `distances/`: precomputed distance maps used by the model.
+- `distances/`: generated distance maps used by the model.
 - `scripts/`: evaluation utilities.
 - `checkpoints/`: intentionally contains no model weights. If you need the trained checkpoints, please contact the corresponding author.
 
@@ -25,13 +25,23 @@ Python 3.10 or 3.11 and a CUDA-capable GPU are recommended. Install PyTorch and 
 pip install numpy scipy scikit-learn scikit-image opencv-python Pillow tqdm thop
 ```
 
-The DINOv3 source is included under `dinov3-main/`. Download the pretrained DINOv3 checkpoint required for your selected architecture from the official DINOv3 distribution and place it in the PyTorch Hub checkpoints directory, normally `~/.cache/torch/hub/checkpoints/`. For `dinov3_vitb16`, the expected filename is `dinov3_vitb16_pretrain.pth`.
+The DINOv3 source is included under `dinov3-main/`. Before training, run `python create_distance_maps.py` from the repository root to create the required `.npy` files in `distances/`. Download the pretrained DINOv3 checkpoint required for your selected architecture from the official DINOv3 distribution and place it in the PyTorch Hub checkpoints directory, normally `~/.cache/torch/hub/checkpoints/`. For `dinov3_vitb16`, the expected filename is `dinov3_vitb16_pretrain.pth`.
 
 Set `DINOV3_HUB_DIR` if the DINOv3 source is stored elsewhere, and `DINOV3_CHECKPOINT_DIR` if its pretrained checkpoint is stored outside the default PyTorch Hub directory.
 
 ## Dataset layout
 
 Download the datasets from their respective official sources and update `--data_path` to the dataset root. The loaders expect the original dataset directory structures for MVTec AD, BTAD, and the CAD/UltraChip dataset. Dataset files are not included here.
+
+## Generate distance maps
+
+Before training, generate the required distance maps by running the included script from the repository root:
+
+```bash
+python create_distance_maps.py
+```
+
+The script writes the `.npy` files to `distances/`.
 
 ## Training
 

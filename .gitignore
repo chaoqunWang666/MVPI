@@ -1,0 +1,19 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Model checkpoints and generated outputs
+/checkpoints/*
+!/checkpoints/.gitkeep
+/experiments/
+/vis_results/
+/logs_eval_mvtec.txt
+/scripts/eval_results_mvtec.json
+/distances/*.npy
+
+# Local environments and editor files
+.venv/
+venv/
+.env
+.vscode/
+.idea/
