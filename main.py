@@ -46,7 +46,7 @@ def parse_args():
     parser.add_argument('--backbone_arch', default='dinov3_vitb16', type=str,
                         help='feature extractor (default: dinov3_vitb16)')
     parser.add_argument('--feature_levels', default=3, type=int)
-    # layer selection (Reviewer 3-1: layer-choice ablation; Reviewer 1-3: consistency)
+    # layer selection
     parser.add_argument('--target_layers', default='2,5,8', type=str,
                         help='comma-separated 0-indexed ViT block indices (default: 2,5,8)')
     # MRFT switch: 1 = multi-scale 3-head reconstruction + weighted fusion (full MRFT),
@@ -58,7 +58,7 @@ def parse_args():
                         help='feature jitter noise magnitude sigma (default: 0.05)')
     parser.add_argument('--n_heads', type=int, default=8)
     parser.add_argument('--n_layers', type=int, default=3)
-    # MVPI config (Reviewer 1-1/1-7: concrete MVPI settings and tiling baseline)
+    # MVPI config
     parser.add_argument('--use_mvpi', type=int, default=1, choices=[0, 1],
                         help='1 = multi-view overlapping inference, 0 = single full-image view')
     parser.add_argument('--overlap_patch_size', default=224, type=int,
@@ -68,12 +68,12 @@ def parse_args():
     parser.add_argument('--mvpi_agg', default='disjoint', type=str, choices=['disjoint', 'avg'],
                         help="disjoint = MVPI central-region assignment; avg = plain overlapping-tiling "
                              "baseline that averages all overlapping tokens (same crops / same #forward passes)")
-    # image-level pooling (corrected Table 7: pooling must not change pixel-level metrics)
+    # image-level pooling
     parser.add_argument('--img_pool', default='topk_mean', type=str,
                         choices=['topk_mean', 'max', 'mean'],
                         help='image-level score pooling from the pixel anomaly map (default: topk_mean)')
     parser.add_argument('--topk', type=int, default=100)
-    # checkpoint selection protocol (Reviewer 1-2: train/validation procedure)
+    # checkpoint selection protocol
     parser.add_argument('--select', default='best_pro', type=str, choices=['best_pro', 'last'],
                         help="model selection: best PRO on test set per epoch (original protocol) or last epoch")
     # output
@@ -125,7 +125,7 @@ def run_one_class(args, class_name):
         'img_auc': float(img_auc),
         'pix_auc': float(pix_auc),
         'pro_auc': float(pro_auc),
-        # full config snapshot for reproducibility (Reviewer 1-1 / 1-2)
+        # full config snapshot for reproducibility
         'config': {
             'backbone': args.backbone_arch,
             'inp_size': args.inp_size,
