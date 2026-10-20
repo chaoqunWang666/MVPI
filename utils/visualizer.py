@@ -87,24 +87,20 @@ def visualize_correlations(attn, img, file_name, img_type, args):
     # let's select 4 reference points for visualization
     idxs = [(60, 60), (110, 110), (130, 130), (140, 160)]
     
-    # here we create the canvas
-    fig = plt.figure(constrained_layout=True, figsize=(25 * 0.7, 8.5 * 0.7))
-    # and we add one plot per reference point
-    gs = fig.add_gridspec(2, 4)
+        fig = plt.figure(constrained_layout=True, figsize=(25 * 0.7, 8.5 * 0.7))
+        gs = fig.add_gridspec(2, 4)
     axs = [fig.add_subplot(gs[0, 0]),
            fig.add_subplot(gs[1, 0]),
            fig.add_subplot(gs[0, -1]),
            fig.add_subplot(gs[1, -1])]
     
-    # for each one of the reference points, let's plot the self-attention for that point
-    for idx_o, ax in zip(idxs, axs):
+        for idx_o, ax in zip(idxs, axs):
         idx = (idx_o[0] // factor, idx_o[1] // factor)
         ax.imshow(attn[idx[0], idx[1], ...], cmap='cividis', interpolation='nearest')
         ax.axis('off')
         ax.set_title(f'global-correlation{idx_o}')
     
-    # and now let's add the central image, with the reference points as red circles
-    img = denormalization(img.squeeze(0))
+        img = denormalization(img.squeeze(0))
     fcenter_ax = fig.add_subplot(gs[:, 1:-1])
     fcenter_ax.imshow(img)
     for (y, x) in idxs:
