@@ -15,7 +15,6 @@ Official code for **Multi-view patch inference with frozen DINOv3 for industrial
 - `scripts/`: evaluation utilities.
 - `checkpoints/`: intentionally contains no model weights. If you need the trained checkpoints, please contact the corresponding author.
 
-The `experiments/` and `vis_results/` folders and all trained checkpoints are not included in this public repository.
 
 ## Requirements
 
